@@ -26,10 +26,53 @@ describe DataProcurement::Merge do
     let(:sample) { subject.first }
 
     it 'includes complete address info' do
-      expect(sample['address']).to eq hotel_a_samples.first['Address']
-      expect(sample['city']).to eq hotel_a_samples.first['City']
-      expect(sample['country']).to eq hotel_b_samples.first['location']['country']
-      expect(sample['postal_code']).eq hotel_a_samples.first['PostalCode']
+      expect(sample['address'].strip).to eq hotel_c_samples.first['address'].strip
+      expect(sample['city']).to eq hotel_a_samples.first['City'].strip
+      expect(sample['country'].strip).to eq hotel_b_samples.first['location']['country'].strip
+      expect(sample['postal_code'].strip).to eq hotel_a_samples.first['PostalCode'].strip
+    end
+  end
+
+  context 'description' do
+    let(:sample) { subject.first }
+
+    it 'merges descriptions' do
+      expect(sample['description'].strip).to include hotel_a_samples.first['Description'].strip
+      expect(sample['description'].strip).to include hotel_b_samples.first['details'].strip
+      expect(sample['description'].strip).to include hotel_c_samples.first['info'].strip
+    end
+  end
+
+  context 'amenities' do
+    let(:sample) { subject.first }
+
+    it 'merges amenites' do
+      expect(sample['amenities']).to eq(
+        [
+          hotel_a_samples.first['Facilities'],
+          hotel_b_samples.first['amenities']['general'],
+          hotel_b_samples.first['amenities']['room'],
+          hotel_c_samples.first['amenities']
+        ].flatten.compact.uniq
+      )
+    end
+  end
+
+  context 'images' do
+    let(:sample) { subject.first }
+    let(:expectation) do
+      [
+        {"url"=>"https://d2ey9sqrvkqdfs.cloudfront.net/0qZF/2.jpg", "caption"=>"Double room"},
+        {"url"=>"https://d2ey9sqrvkqdfs.cloudfront.net/0qZF/3.jpg", "caption"=>"Double room"},
+        {"url"=>"https://d2ey9sqrvkqdfs.cloudfront.net/0qZF/1.jpg", "caption"=>"Front"},
+        {"url"=>"https://d2ey9sqrvkqdfs.cloudfront.net/0qZF/4.jpg", "caption"=>"Bathroom"},
+        {"url"=>"https://d2ey9sqrvkqdfs.cloudfront.net/0qZF/0.jpg", "caption"=>"RWS"},
+        {"url"=>"https://d2ey9sqrvkqdfs.cloudfront.net/0qZF/6.jpg", "caption"=>"Sentosa Gateway"}
+      ]
+    end
+
+    it 'merges images' do
+      expect(sample['images']).to eq(expectation)
     end
   end
 end
