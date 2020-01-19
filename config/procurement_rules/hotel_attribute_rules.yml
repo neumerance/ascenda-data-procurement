@@ -17,9 +17,11 @@ lat:
   attributes:
     - lat
     - latitude
+    - Latitude
 lng:
   attributes:
     - lng
+    - longitude
     - Longitude
 address:
   attributes:
@@ -65,6 +67,7 @@ caption:
     - caption
     - description
 booking_conditions:
+  is_array: true
   attributes:
     - booking_conditions
 images:
