@@ -1,0 +1,81 @@
+id:
+  attributes:
+    - id
+    - hotel_id
+    - Id
+destination_id:
+  attributes:
+    - destination_id
+    - destination
+    - DestinationId
+name:
+  attributes:
+    - name
+    - hotel_name
+    - Name
+lat:
+  attributes:
+    - lat
+    - latitude
+lng:
+  attributes:
+    - lng
+    - Longitude
+address:
+  attributes:
+    - address
+    -
+      - location
+      - address
+    - Address
+city:
+  attributes:
+    - City
+country:
+  attributes:
+    - Country
+    -
+      - location
+      - country
+postal_code:
+  attributes:
+    - PostalCode
+description:
+  attributes:
+    - details
+    - info
+    - Description
+amenities:
+  is_array: true
+  attributes:
+    - amenities
+    - Facilities
+    -
+      - amenities
+      - general
+    -
+      - amenities
+      - room
+url:
+  attributes:
+    - url
+    - link
+caption:
+  attributes:
+    - caption
+    - description
+booking_conditions:
+  attributes:
+    - booking_conditions
+images:
+  is_array: true
+  attributes:
+    -
+      - images
+      - rooms
+    -
+      - images
+      - amenities
+    -
+      - images
+      - site
