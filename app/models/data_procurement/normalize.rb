@@ -1,6 +1,6 @@
-# Usage:
-# segment: <Hash>
 # DataProcurement::Sanitize.normalize(segment: <segment>)
+# Normalizes based on attributes rules
+# @param {Hash} segment
 module DataProcurement
   class Normalize
     RULES = YAML.load_file(Rails.root.join('config/procurement_rules/hotel_attribute_rules.yml'))
@@ -11,7 +11,7 @@ module DataProcurement
         normalized_segment = {}
         RULES.each do |attr, rule|
           value = get_value(rule.dig('attributes'), segment)
-          value = value.first unless rule.dig('is_array')
+          value = value.first unless rule.dig('type') == 'array'
           next unless value.present?
           normalized_segment[attr] = if value.is_a? Array
                                       value.map { |seg| normalize(segment: seg) }.compact.flatten

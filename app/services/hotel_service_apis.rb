@@ -22,7 +22,7 @@ class HotelServiceApis
     if response.success?
       response.parsed_response
     else
-      raise 'service can not be reach'
+      raise Exceptions::ApiServiceError
     end
   end
 end

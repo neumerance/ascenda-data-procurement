@@ -1,29 +1,35 @@
 id:
+  type: string
   attributes:
     - id
     - hotel_id
     - Id
 destination_id:
+  type: number
   attributes:
     - destination_id
     - destination
     - DestinationId
 name:
+  type: string
   attributes:
     - name
     - hotel_name
     - Name
 lat:
+  type: number
   attributes:
     - lat
     - latitude
     - Latitude
 lng:
+  type: number
   attributes:
     - lng
     - longitude
     - Longitude
 address:
+  type: string
   attributes:
     - address
     -
@@ -31,24 +37,30 @@ address:
       - address
     - Address
 city:
+  type: string
   attributes:
     - City
 country:
+  type: string
   attributes:
     - Country
     -
       - location
       - country
 postal_code:
+  type: string
   attributes:
     - PostalCode
 description:
+  type: string
+  mergeable: true
   attributes:
     - details
     - info
     - Description
 amenities:
-  is_array: true
+  type: array
+  mergeable: true
   attributes:
     - amenities
     - Facilities
@@ -67,11 +79,13 @@ caption:
     - caption
     - description
 booking_conditions:
-  is_array: true
+  type: array
+  mergeable: true
   attributes:
     - booking_conditions
 images:
-  is_array: true
+  type: array
+  mergeable: true
   attributes:
     -
       - images
