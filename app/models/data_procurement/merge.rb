@@ -17,29 +17,9 @@ module DataProcurement
             next if existing_segment[attr] == segment[attr]
             existing_segment[attr] ||= nil
             if rule.dig('mergeable')
-              if rule.dig('type') == 'array'
-                existing_segment[attr] ||= []
-                existing_segment[attr] << segment[attr]
-                existing_segment[attr] = existing_segment[attr].flatten.compact.uniq
-              elsif rule.dig('type') == 'string'
-                if existing_segment[attr].present? && segment[attr].present?
-                  next if existing_segment[attr].include?(segment[attr]) ||
-                          segment[attr].include?(existing_segment[attr])
-                end
-                existing_segment[attr] = "#{existing_segment[attr]}, #{segment[attr]}"
-              else
-                existing_segment[attr] = segment[attr] if segment[attr].present?
-              end
+              merge_segment_attr(existing_segment, segment, rule, attr)
             else
-              if rule.dig('type') == 'string'
-                if existing_segment[attr].present? && segment[attr].present?
-                  next if existing_segment[attr].include?(segment[attr]) ||
-                          segment[attr].include?(existing_segment[attr])
-                end
-                existing_segment[attr] = segment[attr] if segment[attr].present?
-              else
-                existing_segment[attr] = segment[attr] if segment[attr].present?
-              end
+              assign_segment_attr(existing_segment, segment, rule, attr)
             end
           end
         end
@@ -62,6 +42,34 @@ module DataProcurement
           DataProcurement::Normalize.normalize(segment: segment)
         end
       end
+    end
+
+    def assign_segment_attr(existing_segment, segment, rule, attr)
+      return unless rule.dig('type') == 'string' &&
+                    segment[attr].present?
+      return if seg_string_included(existing_segment, segment, attr)
+      return if segment[attr].length < (existing_segment[attr].try(:length) || 0)
+      existing_segment[attr] = segment[attr]
+    end
+
+    def merge_segment_attr(existing_segment, segment, rule, attr)
+      if rule.dig('type') == 'array'
+        existing_segment[attr] ||= []
+        existing_segment[attr] << segment[attr]
+        existing_segment[attr] = existing_segment[attr].flatten.compact.uniq
+      elsif rule.dig('type') == 'string'
+        return if seg_string_included(existing_segment, segment, attr)
+        existing_segment[attr] = "#{existing_segment[attr]}, #{segment[attr]}"
+      else
+        existing_segment[attr] = segment[attr] if segment[attr].present?
+      end
+    end
+
+    def seg_string_included(existing_segment, segment, attr)
+      return false unless existing_segment[attr].present? &&
+                          segment[attr].present?
+      existing_segment[attr].include?(segment[attr]) ||
+      segment[attr].include?(existing_segment[attr])
     end
   end
 end
