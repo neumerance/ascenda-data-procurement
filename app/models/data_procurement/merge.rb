@@ -15,6 +15,7 @@ module DataProcurement
           existing_segment = find_existing_segment(segment)
           RULES.each do |attr, rule|
             next if existing_segment[attr] == segment[attr]
+            existing_segment[attr] ||= nil
             if rule.dig('mergeable')
               if rule.dig('type') == 'array'
                 existing_segment[attr] ||= []
@@ -27,7 +28,7 @@ module DataProcurement
                 end
                 existing_segment[attr] = "#{existing_segment[attr]}, #{segment[attr]}"
               else
-                existing_segment[attr] = segment[attr]
+                existing_segment[attr] = segment[attr] if segment[attr].present?
               end
             else
               if rule.dig('type') == 'string'
@@ -35,9 +36,9 @@ module DataProcurement
                   next if existing_segment[attr].include?(segment[attr]) ||
                           segment[attr].include?(existing_segment[attr])
                 end
-                existing_segment[attr] = segment[attr]
+                existing_segment[attr] = segment[attr] if segment[attr].present?
               else
-                existing_segment[attr] = segment[attr]
+                existing_segment[attr] = segment[attr] if segment[attr].present?
               end
             end
           end

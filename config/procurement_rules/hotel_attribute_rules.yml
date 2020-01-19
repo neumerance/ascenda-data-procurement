@@ -26,7 +26,6 @@ lng:
   type: number
   attributes:
     - lng
-    - longitude
     - Longitude
 address:
   type: string
