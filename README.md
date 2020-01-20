@@ -1,12 +1,15 @@
 # Hotels data merge
 
 ## How to setup?
-```cd ascenda```
+```cd ascenda-data-procurement```
+
 ```bundle install```
+
 ```bundle exec rspec```
 
 ## API Endpoints
 ```GET /find_hotels```
+
 ```params: { id: <Number>|<String>, destination_id: <Number>|<String> }```
 
 # Assignment Details
