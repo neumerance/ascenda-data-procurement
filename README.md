@@ -1,6 +1,13 @@
 # Hotels data merge
 
 ## How to setup?
+
+Install RVM
+
+```https://rvm.io/```
+
+```rvm install 2.6.8```
+
 ```cd ascenda-data-procurement```
 
 ```bundle install```
@@ -11,6 +18,10 @@
 ```GET /find_hotels```
 
 ```params: { id: <Number>|<String>, destination_id: <Number>|<String> }```
+
+```rails s```
+
+visit ```http://localhost:3000/find_hotels```
 
 # Assignment Details
 
