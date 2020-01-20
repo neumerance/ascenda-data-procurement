@@ -2,19 +2,22 @@
 # Merges resource based on attributes rules
 # @param {Array} of {Hash} resource
 # @param {Hash} filter
-# filter { hotel_id: <String||Number>, destination_id: <String||Number> }
+# filter { id: <String||Number>, destination_id: <String||Number> }
 module DataProcurement
   class Search
     class << self
       def search(resource:, filter:)
-        return resource unless filter[:hotel_id].present? ||
-                               filter[:destination_id].present?
         filter[:hotel_id] ||= ''
         filter[:destination_id] ||= ''
-        resource.select do |x|
-          x['id'].to_s == filter[:hotel_id] ||
-          x['destination_id'].to_s == filter[:destination_id]
-        end
+        return resource unless filter[:id].present? ||
+                               filter[:destination_id].present?
+        resource = search_by(filter, :id, resource)
+        search_by(filter, :destination_id, resource)
+      end
+
+      def search_by(filter, attr, resource)
+        return resource unless filter[attr].present?
+        resource.select { |x| x[attr.to_s].to_s == filter[attr].to_s }
       end
     end
   end
