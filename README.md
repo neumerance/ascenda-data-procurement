@@ -1,5 +1,16 @@
 # Hotels data merge
 
+## How to setup?
+```cd ascenda```
+```bundle install```
+```bundle exec rspec```
+
+## API Endpoints
+```GET /find_hotels```
+```params: { id: <Number>|<String>, destination_id: <Number>|<String> }```
+
+# Assignment Details
+
 ## Introduction
 
 To write the application you can use any language. It should work as a web server. You can post it as a gist, upload to github or send us via email, anything works as long as the code is correct and you send us instructions how to use it.
